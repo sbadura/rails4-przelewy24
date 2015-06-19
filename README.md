@@ -1,6 +1,6 @@
-# Rails4::Przelewy24
+# Przelewy24 for rails4
 
-TODO: Write a gem description
+This gem provide basic communication with przelewy24 payment API v.3.2
 
 ## Installation
 
@@ -11,10 +11,6 @@ Add this line to your application's Gemfile:
 And then execute:
 
     $ bundle
-
-Or install it yourself as:
-
-    $ gem install rails4-przelewy24
 
 ## Usage
 
