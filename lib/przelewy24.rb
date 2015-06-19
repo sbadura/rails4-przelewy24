@@ -1,6 +1,7 @@
 require 'przelewy24/version'
 require 'przelewy24/configuration'
 require 'przelewy24/transaction'
+require 'action_view'
 
 module Przelewy24
   attr_writer :config
