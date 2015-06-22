@@ -20,13 +20,16 @@ module Przelewy24
     end
 
     def register_transaction
-      return if @options[:p24_order_id].present?
       params = create_params @conf.register_transaction_params
-      sign params, %w(p24_session_id p24_merchant_id p24_amount p24_currency)
-      verify_params params
-      response = query_p24 @conf.register_url, params
-      @token = response['token']
-      params.merge({:p24_token => @token})
+      unless @options[:p24_order_id].present?
+        sign params, %w(p24_session_id p24_merchant_id p24_amount p24_currency)
+        verify_params params
+        response = query_p24 @conf.register_url, params
+        @token = response['token']
+        params.merge({:p24_token => @token})
+      else
+        @token = params[:p24_token]
+      end
       params[:transaction_url] = @conf.request_url + @token
     end
 
@@ -34,7 +37,6 @@ module Przelewy24
       p24_sign = params['p24_sign']
       sign params, %w(p24_session_id p24_order_id p24_amount p24_currency)
       p24_sign == params['p24_sign']
-
     end
 
     def confirm_transaction
@@ -54,7 +56,8 @@ module Przelewy24
       options.each do |k, v|
         out[('p24_'+k.to_s).to_sym] = v
       end
-      out[:p24_amount] = (out[:p24_amount]*100).to_int
+      out[:p24_pos_id] = out[:p24_merchant_id] unless out[:p24_pos_id].present?
+      out[:p24_amount] = (out[:p24_amount]*100).to_int if out[:p24_amount].present?
       out
     end
 
