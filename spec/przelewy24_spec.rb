@@ -16,7 +16,7 @@ describe Przelewy24 do
   end
 
   describe Przelewy24::Transaction do
-    let(:options) {{session_id: 1, amount: 1.23, currency:'PLN', description:'desc', email:'mariusz.henn@gmail.com', country:'pl', url_status: 'example.com/status', url_return: 'http://example.com/success_transaction'}}
+    let(:options) {{order_id:18506028, session_id: 1, amount: 1.23, currency:'PLN', description:'desc', email:'mariusz.henn@gmail.com', country:'pl', url_status: 'example.com/status', url_return: 'http://example.com/success_transaction'}}
     subject (:transaction){ Przelewy24::Transaction.new options }
 
     context '#transaction' do
@@ -38,6 +38,8 @@ describe Przelewy24 do
                        'p24_sign'=> '7bdc0340171a04121a00b66fbba2f2cf'}
        expect(transaction.verify_transaction_status(params)).to equal true
       end
+
+      it {expect(transaction.confirm_transaction).to equal true}
     end
 
     context '#test_connection' do

@@ -16,10 +16,11 @@ module Przelewy24
       sign params, %w(p24_pos_id)
       verify_params params
       response = query_p24 @conf.test_url, params
-      response['error'] == '0' ? true : false
+      response['error'] == '0'
     end
 
     def register_transaction
+      return if @options[:p24_order_id].present?
       params = create_params @conf.register_transaction_params
       sign params, %w(p24_session_id p24_merchant_id p24_amount p24_currency)
       verify_params params
@@ -34,6 +35,14 @@ module Przelewy24
       sign params, %w(p24_session_id p24_order_id p24_amount p24_currency)
       p24_sign == params['p24_sign']
 
+    end
+
+    def confirm_transaction
+      params = create_params @conf.confirm_transaction_params
+      sign params, %w(p24_session_id p24_order_id p24_amount p24_currency)
+      verify_params params
+      response = query_p24 @conf.confirm_transaction_url, params
+      response['error'] == '0'
     end
 
     private
