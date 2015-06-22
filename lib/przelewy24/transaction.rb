@@ -26,6 +26,14 @@ module Przelewy24
       response = query_p24 @conf.register_url, params
       @token = response['token']
       params.merge({:p24_token => @token})
+      params[:transaction_url] = @conf.request_url + @token
+    end
+
+    def verify_transaction_status(params)
+      p24_sign = params['p24_sign']
+      sign params, %w(p24_session_id p24_order_id p24_amount p24_currency)
+      p24_sign == params['p24_sign']
+
     end
 
     private
@@ -37,6 +45,7 @@ module Przelewy24
       options.each do |k, v|
         out[('p24_'+k.to_s).to_sym] = v
       end
+      out[:p24_amount] = (out[:p24_amount]*100).to_int
       out
     end
 
@@ -53,7 +62,7 @@ module Przelewy24
       end
     end
 
-    def create_params(source_params={})
+    def create_params(source_params = {})
       params = {}
       source_params.each do |k, v|
         params[k] = @options[k]

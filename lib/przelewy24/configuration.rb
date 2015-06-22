@@ -9,11 +9,12 @@ module Przelewy24
       namespace = Rails.env=='production' ? 'secure' : 'sandbox'
       @test_url = "https://#{namespace}.przelewy24.pl/testConnection"
       @register_url =  "https://#{namespace}.przelewy24.pl/trnRegister"
+      @request_url = "https://#{namespace}.przelewy24.pl/trnRequest/"
       @return_url = nil
       @merchant_id = nil
       @crc = nil
       @test_connection_params = hash_of %w(merchant_id pos_id sign)
-      @register_transaction_params = hash_of %w(session_id merchant_id pos_id amount currency description email country url_return api_version sign)
+      @register_transaction_params = hash_of %w(session_id merchant_id pos_id amount currency description email country url_return url_status api_version sign)
     end
 
     def default_transaction_options
