@@ -1,1 +1,1 @@
-require 'przelewy24'
+require 'rails4-przelewy24'

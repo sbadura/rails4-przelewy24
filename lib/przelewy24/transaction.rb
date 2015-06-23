@@ -56,7 +56,7 @@ module Przelewy24
       options.each do |k, v|
         out[('p24_'+k.to_s).to_sym] = v
       end
-      out[:p24_pos_id] = out[:p24_merchant_id] unless out[:p24_pos_id].present?
+      out[:p24_pos_id] = @conf.merchant_id unless out[:p24_pos_id].present?
       out[:p24_amount] = (out[:p24_amount]*100).to_int if out[:p24_amount].present?
       out
     end
