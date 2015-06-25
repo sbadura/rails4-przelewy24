@@ -4,11 +4,11 @@ require 'json'
 module Przelewy24
   class Transaction
     attr_accessor :options
-    attr_reader :token
+    attr_reader :token, :transaction_url
 
     def initialize(options = {})
       @conf = Przelewy24.config
-      @options = @conf.default_transaction_options.merge p24_options options
+      @options = p24_options(@conf.default_transaction_options).merge(p24_options(options))
     end
 
     def test_connection
@@ -30,7 +30,7 @@ module Przelewy24
       else
         @token = params[:p24_token]
       end
-      params[:transaction_url] = @conf.request_url + @token
+      @transaction_url = @conf.request_url + @token
     end
 
     def verify_transaction_status(params)

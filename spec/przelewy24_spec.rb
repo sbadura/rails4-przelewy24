@@ -6,7 +6,7 @@ describe Przelewy24 do
     Przelewy24.configure do |config|
       config.merchant_id = 37154
       config.crc = 'a65ac19629e9c9fa'
-      config.return_url = 'http://example.com/success_transaction'
+      config.url_return = 'http://example.com/success_transaction'
     end
   end
 
