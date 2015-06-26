@@ -36,8 +36,8 @@ module Przelewy24
     def verify_transaction_status(params)
       test = [params[:p24_session_id],params[:p24_order_id],params[:p24_amount],params[:p24_currency],@conf.crc]
       raise 'malformed sign' unless Digest::MD5.hexdigest(test.join('|')) == params[:p24_sign]
-      %w(p24_session_id p24_amount p24_currency).each do |t|
-        raise "param #{t} not match" unless params[t.to_sym] == @options[t.to_sym]
+      %i(p24_session_id p24_amount p24_currency).each do |t|
+        raise "param #{t} not match" unless params[t].to_s == @options[t].to_s
       end
       true
     end
