@@ -39,6 +39,7 @@ module Przelewy24
       %i(p24_session_id p24_amount p24_currency).each do |t|
         raise "param #{t} not match" unless params[t].to_s == @options[t].to_s
       end
+      @options[:p24_order_id] = params[:p24_order_id]
       true
     end
 
