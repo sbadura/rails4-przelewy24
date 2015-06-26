@@ -1,5 +1,5 @@
 require 'spec_helper'
-
+require 'action_controller'
 describe Przelewy24 do
 
   before do
@@ -27,15 +27,15 @@ describe Przelewy24 do
       end
 
       it 'verifying received transaction status' do
-        params ={'p24_merchant_id' => 37154,
+        params =ActionController::Parameters.new({'p24_merchant_id' => 37154,
                        'p24_pos_id' => 37154,
                        'p24_session_id' => 1,
                        'p24_amount'=> 123,
                        'p24_currency' => 'PLN',
-                       'p24_order_id'=> 199,
+                       'p24_order_id'=> 18506028,
                        'p24_method'=> 16,
                        'p24_statement'=> 'payment for invoice',
-                       'p24_sign'=> '7bdc0340171a04121a00b66fbba2f2cf'}
+                       'p24_sign'=> '8d2137c81c95c449c7dea25354c34dc4'})
        expect(transaction.verify_transaction_status(params)).to equal true
       end
 

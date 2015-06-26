@@ -34,9 +34,14 @@ module Przelewy24
     end
 
     def verify_transaction_status(params)
-      p24_sign = params['p24_sign']
-      sign params, %w(p24_session_id p24_order_id p24_amount p24_currency)
-      p24_sign == params['p24_sign']
+      test = %w(p24_session_id p24_order_id p24_amount p24_currency)
+      p24_sign = params[:p24_sign]
+      sign(params, test)
+      test.each do |t|
+        raise "param #{t} not match" unless params[t.to_sym] == @options[t.to_sym]
+      end
+      raise 'malformed sign' unless p24_sign == params[:p24_sign]
+      true
     end
 
     def confirm_transaction
