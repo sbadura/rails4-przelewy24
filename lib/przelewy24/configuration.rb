@@ -6,10 +6,10 @@ module Przelewy24
     attr_accessor :test_connection_params, :register_transaction_params, :confirm_transaction_params
     attr_reader :test_url, :register_url, :request_url, :confirm_transaction_url
 
-    def initialize
+    def initialize(sandbox = false)
       @merchant_id = nil
       @crc = nil
-      namespace = Rails.env=='production' ? 'secure' : 'sandbox'
+      namespace = sandbox ? 'sandbox' : 'secure'
       @test_url = "https://#{namespace}.przelewy24.pl/testConnection"
       @register_url =  "https://#{namespace}.przelewy24.pl/trnRegister"
       @request_url = "https://#{namespace}.przelewy24.pl/trnRequest/"
